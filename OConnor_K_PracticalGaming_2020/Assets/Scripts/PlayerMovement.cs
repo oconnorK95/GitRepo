@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody rb;
 
-    private bool grounded;
+    private bool grounded = true;
 
     private int speed = 15;
 
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
 
     {
-
+        rb.AddForce(Vector3.down * Time.deltaTime, ForceMode.Acceleration);
         Vector3 move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
 
 
