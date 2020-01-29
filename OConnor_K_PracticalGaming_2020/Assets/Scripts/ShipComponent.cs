@@ -5,43 +5,46 @@ using UnityEngine;
 public abstract class ShipComponent : MonoBehaviour
 {
     //This class contains a template for the components which make up a spaceship
-    //Essential: Hull, Side + Rear Thrusters, Wings
-    //NonEssential: WarpDrive, Hyperdrive, Accents, Guns
-    //These components will have values associated with them which will add to the ships total stats. E.g. a hull will add health, thrusters add speed
 
-
-    private int shipMaxValue;
-    private int shipMaxHealth;
-    private int shipCurValue;
-    private int shipCurHealth;
-    private int shipSpeed;
-    private int shipTurnSpeed;
-    private int shipDamage;
+    /*
+private int shipMaxValue;
+private int shipMaxHealth;
+private int shipCurValue;
+private int shipCurHealth;
+private int shipSpeed;
+private int shipTurnSpeed;
+private int shipDamage;
+*/
+    [SerializeField]GameObject wings1, wings2, wings3;
+    [SerializeField]GameObject guns1, guns2, guns3;
+    [SerializeField]GameObject hulls1, hulls2, hulls3;
+    [SerializeField]GameObject thrusters1, thrusters2, thrusters3;
 
     private GameObject[] wings;
-    //hulls.Add(wings1);
-    //hulls.Add(wings2);
-    //hulls.Add(wings3);
+    //public GameObject wings.Add(wings1);
+    //public GameObject = wings[0];
+    //wings.Add(wings2);
+    //wings.Add(wings3);
 
     private GameObject[] guns;
-    //hulls.Add(guns1);
-    //hulls.Add(guns2);
-    //hulls.Add(guns3);
-
+    //guns.Add(guns1);
+    //guns.Add(guns2);
+    //guns.Add(guns3);
 
     private GameObject[] hulls;
     //hulls.Add(hull1);
     //hulls.Add(hull2);
     //hulls.Add(hull3);
 
-    private GameObject[] rearThruster;
-    //hulls.Add(rearThruster1);
-    //hulls.Add(rearThruster2);
-    //hulls.Add(rearThruster3);
-
     private GameObject[] thrusters;
-    //hulls.Add(thrusters1);
-    //hulls.Add(thrusters2);
-    //hulls.Add(thrusters3);
+    //thrusters.Add(thrusters1);
+    //thrusters.Add(thrusters2);
+    //thrusters.Add(thrusters3);
+
+    //Select random element from each array, wings, guns, hulls, thrusters
+    //Add each component to ship
+    //Accessors mutators to update ship components, find parts in world. Use arc welder to add part (show opaque outline of component to be added)
+
+    //GameObject curWing = wings[Random.Range(0, wings.GetLength(0))]; Use get set?
 
 }
