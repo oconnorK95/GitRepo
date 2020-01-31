@@ -3,7 +3,20 @@ guid: 6b651883868723145bebbca05a9d5ef6
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - wings1: {fileID: 100006, guid: 806819dfef2f3ed4b9b77a0efaa20797, type: 3}
+  - wings2: {fileID: 100006, guid: 03baddf624570474a9b63673dbec5c0a, type: 3}
+  - wings3: {fileID: 100006, guid: 49104596adf92914cbb1b33159f203e5, type: 3}
+  - wings4: {fileID: 100006, guid: a49560231437f654da5124f5df2dc08f, type: 3}
+  - wings5: {fileID: 100006, guid: ea2e382fcc634144897031d9ab384cb5, type: 3}
+  - hulls1: {fileID: 100004, guid: f9ff508660f155849b4687d792fa0ef9, type: 3}
+  - hulls2: {fileID: 100004, guid: aa6930f7e60a27f4a8f64569160203df, type: 3}
+  - hulls3: {fileID: 100004, guid: 1b729104f28a0834fb46ef192b11b666, type: 3}
+  - hulls4: {fileID: 100004, guid: 5a3d63f6b65a88e45b9d4940ac3d2e3e, type: 3}
+  - hulls5: {fileID: 100004, guid: 4e30aa434799b5d4c964054cffdcb350, type: 3}
+  - thrusters1: {fileID: 100006, guid: 81c4b042d5367bc44b2fed2051b25578, type: 3}
+  - thrusters2: {fileID: 100006, guid: 4ccd84624e615944fbc8c563e32697e5, type: 3}
+  - thrusters3: {fileID: 100006, guid: ebedc52c8b662ec4e9d1f0959b147d63, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
