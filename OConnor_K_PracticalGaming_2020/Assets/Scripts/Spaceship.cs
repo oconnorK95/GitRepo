@@ -20,4 +20,6 @@ public abstract class Spaceship : ShipComponent
     }//End constructor
 
     public Spaceship() { }//No arg constructor
+
+   
 }

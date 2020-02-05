@@ -36,5 +36,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(Vector3.up, ForceMode.Impulse);
         }
+
+        
     }
 }
