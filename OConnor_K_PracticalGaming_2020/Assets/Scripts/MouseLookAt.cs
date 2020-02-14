@@ -14,13 +14,7 @@ public class MouseLookAt : MonoBehaviour
 
     float xRotation = 0.0f;
 
-    //Fixed update to handle movement methods
-
-    //Add gravity, add force down?
-    
-    //Add smoothing to mouse input
-    
-    // Start is called before the first frame update
+    bool shouldLook = true;
 
     void Start()
     {
@@ -33,21 +27,23 @@ public class MouseLookAt : MonoBehaviour
 
     void Update()
     {
-        //if shouldLook()
+        if (shouldLook) {
+            float xAxis = Input.GetAxis("Mouse X") * 100 * Time.deltaTime;
+            float yAxis = Input.GetAxis("Mouse Y") * 100 * Time.deltaTime;
 
-        float xAxis = Input.GetAxis("Mouse X") * 100 * Time.deltaTime;
-        float yAxis = Input.GetAxis("Mouse Y") * 100 * Time.deltaTime;
-        
-        player.Rotate(Vector3.up * xAxis);
+            //player.Rotate(Vector3.up * xAxis);
 
-        
-        xRotation -= yAxis;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        player.Rotate(Vector3.up * xAxis);
 
-        
-    }
+            //Stop player from looking too far down/up
+            xRotation -= yAxis;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-}
+            //Allow player to look up
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            player.Rotate(Vector3.up * xAxis);
+
+        }//End shouldLook
+
+
+    }//End Update
+}//End MouseLookAt

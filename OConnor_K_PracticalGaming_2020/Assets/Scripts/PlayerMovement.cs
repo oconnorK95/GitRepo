@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     //private bool grounded = true;
     private int speed = 15;
+    bool shouldJump = true;
+    public float timer = 20;
 
     public CharacterController controller;
 
@@ -32,11 +34,20 @@ public class PlayerMovement : MonoBehaviour
         //rb.AddForce(move * Time.deltaTime);
         controller.Move(move * speed * Time.deltaTime);
 
-        if (Input.GetKey(KeyCode.Space))
+        
+        if (Input.GetKey(KeyCode.Space) && shouldJump)
         {
             rb.AddForce(Vector3.up, ForceMode.Impulse);
-        }
-
+            if (timer > 0) {
+                timer -= Time.deltaTime;
+                Debug.Log("Timer decreasing");
+            }//End if
+            else {
+                timer = 20;
+                Debug.Log("Timer reset to 1000ms");
+            }//End else
+        }//End if
+        
         
     }
 }
