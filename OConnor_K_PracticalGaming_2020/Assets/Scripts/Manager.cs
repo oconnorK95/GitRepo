@@ -8,7 +8,7 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i  = 0; i < 100;i++)
+        for (int i  = 0; i < 50;i++)
         {
             //Randomise position
             GameObject new_piece = Instantiate(component_master, new Vector3(Random.Range(-100.0f, 100.0f), 0f, Random.Range(-100.0f, 100.0f)), Quaternion.identity);
