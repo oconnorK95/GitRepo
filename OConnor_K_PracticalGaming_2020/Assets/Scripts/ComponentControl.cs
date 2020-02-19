@@ -5,7 +5,6 @@ using UnityEngine;
 
 //TODO: State for AVAILABLE, CARRIED, FIXED
 //TODO: Randomise material of components
-//TODO: Remove lights and cameras from prefabs
 
 public class ComponentControl : MonoBehaviour
 {
@@ -34,6 +33,17 @@ public class ComponentControl : MonoBehaviour
         filename_start.Add("wings");
     }
 
+    void removeComponent() {
+
+        //If a new component is added to the ship
+
+        //Get its slot type (Hull, Thrusters, Wings)
+
+        //Fade out the opacity of the old component and delete it
+        currently = Component_State.Fade_Out;
+    }
+
+
     internal void lock_in_place_to(Transform spaceship)
     {
         //New component has transform set to above the ship
@@ -51,7 +61,7 @@ public class ComponentControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //Folded Component_State to tidy up code
         #region
         switch (currently) {
 
@@ -133,5 +143,35 @@ public class ComponentControl : MonoBehaviour
         currently = Component_State.Spawning;
 
     }//End you_are_a
+
+    internal void you_are_a_thruster(Slot placement, int level, GameObject parent)
+    {
+        //Set parent
+        transform.parent = parent.transform;
+
+        //Set slot
+        thisGoes = placement;
+
+        //Set level(tier) of item
+        component_level = level;
+
+        //Set state to spawning
+        currently = Component_State.Spawning;
+    }//End you_are_a_thruster
+
+    internal void you_are_a_wing(Slot placement, int level, GameObject parent)
+    {
+        //Set parent
+        transform.parent = parent.transform;
+
+        //Set slot
+        thisGoes = placement;
+
+        //Set level(tier) of item
+        component_level = level;
+
+        //Set state to spawning
+        currently = Component_State.Spawning;
+    }//End you_are_a_wing
 
 }//End Component Control
