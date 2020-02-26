@@ -5,12 +5,13 @@ using UnityEngine;
 
 //TODO: State for AVAILABLE, CARRIED, FIXED
 //TODO: Randomise material of components
+//TODO: Randomise buildings/space-ports
 
 public class ComponentControl : MonoBehaviour
 {
     enum Component_State { None, Spawning, Available, Carried, Animating, Fixed, Fade_Out}
     Component_State currently = Component_State.None;
-
+    private bool is_a_dummy;
     float ANIMATION_TIME = 1.5f; //Originally 2.0f
     float timer;
     float vertical_height_at_start_of_animation = 0.05f;  //This was originally 5, changed due to scale Blender3d scale issues
@@ -20,9 +21,19 @@ public class ComponentControl : MonoBehaviour
     internal enum Slot { Thrusters, Hull, Wings}
     
     Slot thisGoes;
+
+    internal void you_are_a_dummy()
+    {
+
+        is_a_dummy = true;
+
+    }
+
     int component_level;
     List<string> filename_start;
     private bool model_loaded = false;
+    private float scale_down_for_carry = 0.03f;
+    private float carry_rotate_speed = 180;
 
     // Start is called before the first frame update
     void Start() 
@@ -61,6 +72,7 @@ public class ComponentControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //Folded Component_State to tidy up code
         #region
         switch (currently) {
@@ -74,12 +86,23 @@ public class ComponentControl : MonoBehaviour
                     //new_component is an object loaded from resources
                     GameObject new_component = (GameObject)Instantiate(Resources.Load(filename), transform, false);
                     model_loaded = true;
+                    currently = Component_State.Available;
                 }
 
                 break;//End Spawning
 
             case Component_State.Available:
 
+                if (is_a_dummy)
+                {
+
+                    Color currentColour = GetComponent<Renderer>().material.color;
+
+                    Color newColour = new Color(currentColour.r, currentColour.g, currentColour.b, 0.2f);
+
+                    GetComponent<Renderer>().material.color = newColour;
+                }
+                
                 //When an object spawns and has a model assigned to it
                 //Set the object to available
                 
@@ -126,6 +149,7 @@ public class ComponentControl : MonoBehaviour
                 //If an object is available AND the player collides with it
                 //Pick up the object, set it to carried
 
+                transform .Rotate(Vector3.forward, carry_rotate_speed * Time.deltaTime);
                 break;//End Fixed
 
         }//End switch
@@ -158,6 +182,27 @@ public class ComponentControl : MonoBehaviour
         //Set state to spawning
         currently = Component_State.Spawning;
     }//End you_are_a_thruster
+
+    void OnTriggerEnter(Collider col)
+    {
+        Character_pick_up the_one_picking_me_up = col.transform.GetComponent<Character_pick_up>();
+        if (the_one_picking_me_up)
+        {
+            if (the_one_picking_me_up.can_pick_me_up())
+            {
+                currently = Component_State.Carried;
+                transform.parent = the_one_picking_me_up.transform;
+                the_one_picking_me_up.you_are_now_carrying(this);
+                transform.localScale = scale_down_for_carry * transform.localScale;
+                transform.localPosition = new Vector3(1.0f, 0f, 1.0f);
+            }
+ 
+
+        }
+
+    }
+
+
 
     internal void you_are_a_wing(Slot placement, int level, GameObject parent)
     {
