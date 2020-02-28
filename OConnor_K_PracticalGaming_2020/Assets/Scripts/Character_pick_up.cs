@@ -5,13 +5,16 @@ using UnityEngine;
 
 public class Character_pick_up : MonoBehaviour
 {
+  //  Material m;
+  //  Texture2D our_texture;
 
     ComponentControl I_am_carrying;
-
+     
     ComponentControl basic_hull, basic_thruster, basic_wing;
     // Start is called before the first frame update
     void Start()
     {
+      //  m = Resources.Load<Material>("rrrrr");
         //Randomise position
         GameObject new_piece = new GameObject("Dummy Hull");
         new_piece.transform.parent = transform;
@@ -19,7 +22,7 @@ public class Character_pick_up : MonoBehaviour
         new_piece.transform.localPosition = new Vector3(1, 0, 1);
         basic_hull = new_piece.AddComponent<ComponentControl>();
         //Load an object (1-3 Thrusters, Hull, Wings) + a subset of the object (1-5 hull1, hull2, hull3...)
-        basic_hull.you_are_a(ComponentControl.Slot.Hull, 0);
+        basic_hull.you_are_a(ComponentControl.Slot.Hull, 1);
         basic_hull.you_are_a_dummy();
 
 
@@ -30,8 +33,7 @@ public class Character_pick_up : MonoBehaviour
         new_piece.transform.localPosition = new Vector3(1, 0, 1);
         basic_hull = new_piece.AddComponent<ComponentControl>();
 
-        //Load an object (1-3 Thrusters, Hull, Wings) + a subset of the object (1-5 hull1, hull2, hull3...)
-        basic_hull.you_are_a(ComponentControl.Slot.Thrusters, 0);
+        basic_hull.you_are_a(ComponentControl.Slot.Thrusters, 1);
 
 
         new_piece = new GameObject("Dummy Wing");
@@ -40,16 +42,9 @@ public class Character_pick_up : MonoBehaviour
         new_piece.transform.localPosition = new Vector3(1, 0, 1);
         basic_hull = new_piece.AddComponent<ComponentControl>();
 
-        //Load an object (1-3 Thrusters, Hull, Wings) + a subset of the object (1-5 hull1, hull2, hull3...)
-        basic_hull.you_are_a(ComponentControl.Slot.Wings, 0);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+        basic_hull.you_are_a(ComponentControl.Slot.Wings, 1);
+    }//End Start
 
 
     internal bool can_pick_me_up()

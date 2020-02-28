@@ -9,13 +9,15 @@ using UnityEngine;
 
 public class ComponentControl : MonoBehaviour
 {
+    Texture2D transparent_texture;
+
     enum Component_State { None, Spawning, Available, Carried, Animating, Fixed, Fade_Out}
     Component_State currently = Component_State.None;
     private bool is_a_dummy;
     float ANIMATION_TIME = 1.5f; //Originally 2.0f
     float timer;
     float vertical_height_at_start_of_animation = 0.05f;  //This was originally 5, changed due to scale Blender3d scale issues
-
+    Renderer our_model_renderer;
     //Start and End position for component animation
     Vector3 start_position,end_position;
     internal enum Slot { Thrusters, Hull, Wings}
@@ -24,6 +26,7 @@ public class ComponentControl : MonoBehaviour
 
     internal void you_are_a_dummy()
     {
+      
 
         is_a_dummy = true;
 
@@ -32,7 +35,7 @@ public class ComponentControl : MonoBehaviour
     int component_level;
     List<string> filename_start;
     private bool model_loaded = false;
-    private float scale_down_for_carry = 0.03f;
+    private float scale_down_for_carry = 0.01f;
     private float carry_rotate_speed = 180;
 
     // Start is called before the first frame update
@@ -42,6 +45,15 @@ public class ComponentControl : MonoBehaviour
         filename_start.Add("thrusters");
         filename_start.Add("hull");
         filename_start.Add("wings");
+
+
+
+    }
+
+    IEnumerator waitToSpawn()
+    {
+        yield return new WaitForSeconds(1);
+        Debug.Log("Waiting for 1 second");
     }
 
     void removeComponent() {
@@ -79,35 +91,61 @@ public class ComponentControl : MonoBehaviour
 
             case Component_State.Spawning:
 
+
                 if (!model_loaded)
                 {
+                    // StartCoroutine(waitToSpawn());
                     //Find an object to spawn. "Filename" + "number" eg "thrusters1"
                     string filename = filename_start[(int)thisGoes] + component_level.ToString();
+
                     //new_component is an object loaded from resources
                     GameObject new_component = (GameObject)Instantiate(Resources.Load(filename), transform, false);
+
+                    if (new_component.GetComponent<Rigidbody>() == null) {
+                        Rigidbody r = new_component.AddComponent<Rigidbody>();
+                        r.isKinematic = true;
+                    }
+                    //if (new_component.GetComponent<Collider>() == null)
+                    //{
+                    //    Collider c = new_component.AddComponent<Collider>();
+                    //    c.isTrigger = true;
+                    //}
+                    /*
+                    Rigidbody r = new_component.AddComponent<Rigidbody>();
+                    r.isKinematic = true;
+                    Collider c = new_component.AddComponent<Collider>();
+                    c.isTrigger = true;
                     model_loaded = true;
+                    */
                     currently = Component_State.Available;
                 }
+
 
                 break;//End Spawning
 
             case Component_State.Available:
-
-                if (is_a_dummy)
+                if (our_model_renderer)
                 {
+                    if (is_a_dummy)
+                    {
+       
 
-                    Color currentColour = GetComponent<Renderer>().material.color;
+                        Color currentcolour = our_model_renderer.material.color;
 
-                    Color newColour = new Color(currentColour.r, currentColour.g, currentColour.b, 0.2f);
+                        Color newcolour = new Color(0, 1, 0, 0.5f); // new color(currentcolour.r, currentcolour.g, currentcolour.b, 0.2f);
 
-                    GetComponent<Renderer>().material.color = newColour;
+                        our_model_renderer.material.color = newcolour;
+
+                    }
                 }
-                
-                //When an object spawns and has a model assigned to it
-                //Set the object to available
-                
+                else
+                    our_model_renderer = GetComponentInChildren<Renderer>();
 
-                break;//End Available
+                //When an object spawns and has a model assigned to it
+              //  Set the object to available
+
+
+                    break;//End Available
 
 
             case Component_State.Animating:
@@ -154,8 +192,9 @@ public class ComponentControl : MonoBehaviour
 
         }//End switch
         #endregion
-    }//End Update
 
+        
+    }//End Update
 
     internal void you_are_a(Slot placement, int level)
     {
@@ -195,12 +234,11 @@ public class ComponentControl : MonoBehaviour
                 the_one_picking_me_up.you_are_now_carrying(this);
                 transform.localScale = scale_down_for_carry * transform.localScale;
                 transform.localPosition = new Vector3(1.0f, 0f, 1.0f);
-            }
+            }//End if
  
+        }//End if
 
-        }
-
-    }
+    }//End onTriggerEnter
 
 
 
