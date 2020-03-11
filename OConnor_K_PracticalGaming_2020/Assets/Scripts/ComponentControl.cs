@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class ComponentControl : MonoBehaviour
 {
-    Texture2D transparent_texture;
+    Material transparent_texture;
 
     enum Component_State { None, Spawning, Available, Carried, Animating, Fixed, Fade_Out}
     Component_State currently = Component_State.None;
@@ -46,6 +46,7 @@ public class ComponentControl : MonoBehaviour
         filename_start.Add("hull");
         filename_start.Add("wings");
 
+        transparent_texture = Resources.Load<Material>("rrrrr");
 
 
     }
@@ -126,18 +127,26 @@ public class ComponentControl : MonoBehaviour
             case Component_State.Available:
                 if (our_model_renderer)
                 {
+                    Boolean materialAssigned = false;
+                    our_model_renderer.material = transparent_texture;
                     if (is_a_dummy)
                     {
-       
+                        //If a material is NOT assigned, do this
+                        if (!materialAssigned)
+                        {
+                            Color currentcolour = our_model_renderer.material.color;
+                            
+                            Color newcolour = new Color(currentcolour.r, currentcolour.g, currentcolour.b, 0.2f); // new color(currentcolour.r, currentcolour.g, currentcolour.b, 0.2f);
 
-                        Color currentcolour = our_model_renderer.material.color;
-
-                        Color newcolour = new Color(0, 1, 0, 0.5f); // new color(currentcolour.r, currentcolour.g, currentcolour.b, 0.2f);
-
-                        our_model_renderer.material.color = newcolour;
-
-                    }
-                }
+                            our_model_renderer.material.color = newcolour;
+                        }
+                        //Else get the material
+                        else {
+                            our_model_renderer.material = transparent_texture;  //Fix this
+                        }//End else
+                        
+                    }//End if
+                }//End if
                 else
                     our_model_renderer = GetComponentInChildren<Renderer>();
 
