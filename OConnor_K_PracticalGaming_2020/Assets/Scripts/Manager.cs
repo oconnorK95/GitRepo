@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
+    //Array list of components for observer
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +18,7 @@ public class Manager : MonoBehaviour
         {
             //Randomise position
             GameObject new_piece = new GameObject("Component");
+            
             new_piece.transform.position = new Vector3(Random.Range(-100.0f, 100.0f), 0f, Random.Range(-100.0f, 100.0f));
 
             ComponentControl new_component = new_piece.AddComponent<ComponentControl>();
@@ -25,23 +29,30 @@ public class Manager : MonoBehaviour
             r.isKinematic = true;
             Collider c = new_piece.AddComponent<BoxCollider>();
             c.isTrigger = true;
-            
-
-            //Create ship object
-            //Spawn hull on the object, parent the hull to the object
-            //Spawn thrusters and wings on the hull as children
-
-            /*
-            //Spawn Hull
-            new_component.you_are_a((ComponentControl.Slot.Hull), UnityEngine.Random.Range(0,4));
-            //Spawn Thrusters
-            new_component.you_are_a((ComponentControl.Slot.Thrusters), UnityEngine.Random.Range(0, 2));
-            //Spawn Wings
-            new_component.you_are_a((ComponentControl.Slot.Wings), UnityEngine.Random.Range(0,4));
-            */
 
         }
+
+        for (int i = 0; i < 20; i++)
+        {
+
+            GameObject cargo = new GameObject();
+            cargo.transform.position = new Vector3(Random.Range(-100.0f, 100.0f), 0f, Random.Range(-100.0f, 100.0f));
+        }//End for
+
     }
+
+    /*
+        public void addToArray(Component component)
+        {
+            arrayOfComponents.Add(component);
+        }
+
+             public void removeFromArray(Component component)
+        {
+            arrayOfComponents.Remove(component);
+        }
+    */
+
 
     // Update is called once per frame
     void Update()

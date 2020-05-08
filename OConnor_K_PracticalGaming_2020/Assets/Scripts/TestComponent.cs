@@ -13,7 +13,8 @@ public class TestComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+       
+        //This script acts as a basic animation, droping a ship component onto a ship
         if (Input.GetKey(KeyCode.Space))
         {
             ComponentControl x = FindObjectOfType<ComponentControl>();

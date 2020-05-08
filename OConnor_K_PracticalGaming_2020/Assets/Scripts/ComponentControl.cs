@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO: State for AVAILABLE, CARRIED, FIXED
-//TODO: Randomise material of components
-//TODO: Randomise buildings/space-ports
+// ** POLYMORPHISM -- CARRIED COMPONENTS CANT SNAP TO A NEW OBJECT **
 
 public class ComponentControl : MonoBehaviour
 {
@@ -26,10 +24,7 @@ public class ComponentControl : MonoBehaviour
 
     internal void you_are_a_dummy()
     {
-      
-
         is_a_dummy = true;
-
     }
 
     int component_level;
@@ -47,7 +42,6 @@ public class ComponentControl : MonoBehaviour
         filename_start.Add("wings");
 
         transparent_texture = Resources.Load<Material>("rrrrr");
-
 
     }
 
@@ -67,7 +61,7 @@ public class ComponentControl : MonoBehaviour
         currently = Component_State.Fade_Out;
     }
 
-
+    //** THIS IS MY ANIMATION **
     internal void lock_in_place_to(Transform spaceship)
     {
         //New component has transform set to above the ship
@@ -91,7 +85,6 @@ public class ComponentControl : MonoBehaviour
         switch (currently) {
 
             case Component_State.Spawning:
-
 
                 if (!model_loaded)
                 {
@@ -156,7 +149,6 @@ public class ComponentControl : MonoBehaviour
 
                     break;//End Available
 
-
             case Component_State.Animating:
 
                 timer += Time.deltaTime;
@@ -188,7 +180,6 @@ public class ComponentControl : MonoBehaviour
                 //If a component has been added to a ship
                 //Set the component to fixed
                 
-
                 break;//End Fixed
 
             case Component_State.Carried:
@@ -205,7 +196,8 @@ public class ComponentControl : MonoBehaviour
         
     }//End Update
 
-    internal void you_are_a(Slot placement, int level)
+    #region
+    internal void you_are_a(Slot placement, int level) //Hull
     {
         //Set slot
         thisGoes = placement;
@@ -231,26 +223,6 @@ public class ComponentControl : MonoBehaviour
         currently = Component_State.Spawning;
     }//End you_are_a_thruster
 
-    void OnTriggerEnter(Collider col)
-    {
-        Character_pick_up the_one_picking_me_up = col.transform.GetComponent<Character_pick_up>();
-        if (the_one_picking_me_up)
-        {
-            if (the_one_picking_me_up.can_pick_me_up())
-            {
-                currently = Component_State.Carried;
-                transform.parent = the_one_picking_me_up.transform;
-                the_one_picking_me_up.you_are_now_carrying(this);
-                transform.localScale = scale_down_for_carry * transform.localScale;
-                transform.localPosition = new Vector3(1.0f, 0f, 1.0f);
-            }//End if
- 
-        }//End if
-
-    }//End onTriggerEnter
-
-
-
     internal void you_are_a_wing(Slot placement, int level, GameObject parent)
     {
         //Set parent
@@ -265,5 +237,23 @@ public class ComponentControl : MonoBehaviour
         //Set state to spawning
         currently = Component_State.Spawning;
     }//End you_are_a_wing
+    #endregion
+
+    //Collision detection for pickup
+    void OnTriggerEnter(Collider col)
+    {
+        Character_pick_up the_one_picking_me_up = col.transform.GetComponent<Character_pick_up>();
+        if (the_one_picking_me_up)
+        {
+            if (the_one_picking_me_up.can_pick_me_up())
+            {
+                currently = Component_State.Carried;
+                transform.parent = the_one_picking_me_up.transform;
+                the_one_picking_me_up.you_are_now_carrying(this);
+                transform.localScale = scale_down_for_carry * transform.localScale;
+                transform.localPosition = new Vector3(1.0f, 0f, 1.0f);
+            }//End if
+        }//End if
+    }//End onTriggerEnter
 
 }//End Component Control

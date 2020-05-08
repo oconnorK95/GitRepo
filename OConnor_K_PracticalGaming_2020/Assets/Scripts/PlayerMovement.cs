@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Timer reset to 1000ms");
             }//End else
         }//End if
+
         
         
     }
